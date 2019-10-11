@@ -22,14 +22,7 @@ const ProductsContainer = styled.div`
     border-left:2px solid white;
 `
 
-const rotate = keyframes`
-  from {
-    transform: rotate(0deg)
-  }
-  to {
-    transform: rotate(360deg)
-  }
-`
+
 
 const FontStyle = styled.p`
   color:white;
@@ -65,7 +58,7 @@ const DivOpenCart = styled.div`
 const ImgCart = styled.img`
     width: 70px;
     height:70px;
-    animation: ${props => props.Girar} 1s linear;
+    animation: ${props => props.Girar} 0.5s linear;
 `
 
 
@@ -129,8 +122,8 @@ export class Products extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            buttonState: true,
-            rotate: false,
+            buttonState: "",
+            rotate: "",
         }
     }
 
@@ -164,15 +157,30 @@ export class Products extends React.Component {
 
     render() {
 
-        console.log(this.state.rotate)
+        const rotate = keyframes`
+  from {
+    transform: rotate(0deg)
+  }
+  to {
+    transform: rotate(360deg)
+  }
+`
+        const rotate2 = keyframes`
+  from {
+    transform: rotate(360deg)
+  }
+  to {
+    transform: rotate(0deg)
+  }
+`
 
         let Rotate
 
         if (this.state.rotate) {
             Rotate = rotate
-        } 
-
-        console.log(Rotate)
+        } else{
+            Rotate = rotate2
+        }
 
         let CartImg
 

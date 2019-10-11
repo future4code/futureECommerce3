@@ -78,7 +78,7 @@ export class ProductCard extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            statusButton: true
+            statusButton: false
         }
     }
 
