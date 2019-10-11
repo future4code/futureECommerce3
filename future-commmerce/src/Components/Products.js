@@ -110,6 +110,7 @@ const ImgStyle = styled.img`
     width: 40px;
     margin:0 20px;
     padding-bottom:10px;
+    cursor:pointer;
 `
 
 const DivFilter = styled.div`
@@ -158,17 +159,20 @@ export class Products extends React.Component {
     ReceiveRotatefromCard = (Anything) => {
 
         this.setState({ rotate: Anything })
+        
     }
 
     render() {
+
+        console.log(this.state.rotate)
 
         let Rotate
 
         if (this.state.rotate) {
             Rotate = rotate
-        } else {
-            Rotate = rotate
-        }
+        } 
+
+        console.log(Rotate)
 
         let CartImg
 
@@ -226,7 +230,7 @@ export class Products extends React.Component {
                         <InputStyle type="text" value={this.props.InputFilterValue} onChange={this.ChangeInputValue} />
                     </DivFlex>
                     <DivFlex>
-                        <FontStyle>ordernar preço por: </FontStyle>
+                        <FontStyle>ordenar preço por: </FontStyle>
                         <ImgStyle onClick={this.RenderImageExpensive} src={ImgChangedExpensive} alt="" />
                     </DivFlex>
                 </DivFilter>
