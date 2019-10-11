@@ -52,7 +52,7 @@ const TotalItem = styled.h4`
 const GridDiv = styled.div`
     width: 90%;
     display:grid;
-    grid-template-columns: repeat(2,1fr) 30px;
+    grid-template-columns: repeat(3,1fr) 30px;
 `
 
 const FlexGrid = styled.div`
@@ -76,7 +76,6 @@ export class Cart extends React.Component{
     super(props)
       this.state = {
       }
-    
   }
 
   DeleteCartItem = (id) =>{
@@ -94,11 +93,13 @@ export class Cart extends React.Component{
   render(){
     
     const TotalPrice = this.props.SendList.reduce((PrevItem, Item)=>{
-      return Number(PrevItem) + Number(Item.ProductPrice)
+      return Number(PrevItem) + (Number(Item.ProductPrice)*Number(Item.ProductQuantity))
     },0)
       
+
     const ListCart = this.props.SendList.map((Item)=>{
-      return <GridDiv key={Item.ProductId}><GridItems>{Item.ProductName}</GridItems><GridItems>{Item.ProductPrice}</GridItems><GridItems><ImgStyle onClick={()=>this.DeleteCartItem(Item.ProductId)} src="https://image.flaticon.com/icons/svg/1632/1632602.svg" alt="delete item"/></GridItems></GridDiv>
+
+      return <GridDiv key={Item.ProductId}><GridItems>{Item.ProductName}</GridItems><GridItems>{Item.ProductQuantity}</GridItems><GridItems>{Item.ProductPrice*Item.ProductQuantity}</GridItems><GridItems><ImgStyle onClick={()=>this.DeleteCartItem(Item.ProductId)} src="https://image.flaticon.com/icons/svg/1632/1632602.svg" alt="delete item"/></GridItems></GridDiv>
     })
 
 
@@ -110,12 +111,13 @@ export class Cart extends React.Component{
             </FlexGrid>
               <GridDiv>
                 <GridTitle>Produto</GridTitle>
+                <GridTitle>Quantidade</GridTitle>
                 <GridTitle>Valor</GridTitle>
                 <GridTitleNoBorder></GridTitleNoBorder>
               </GridDiv>
               {ListCart}
               <GridDiv>
-              <TotalItem>Total R$: {TotalPrice} </TotalItem>
+              <TotalItem>Total R$: {TotalPrice} ,00 </TotalItem>
             </GridDiv>
             
             </CartContainer>

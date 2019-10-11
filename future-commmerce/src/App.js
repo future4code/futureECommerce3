@@ -68,7 +68,9 @@ class App extends React.Component{
 
   componentDidMount() {
     const loadStorage = JSON.parse(window.localStorage.getItem("SavedCartList"))
-    this.setState({listCart: loadStorage})
+    if(loadStorage){
+      this.setState({listCart: loadStorage})
+    }
   }
 
   componentDidUpdate(){
@@ -77,7 +79,18 @@ class App extends React.Component{
   }
 
   SavetoStateListCart=(List)=>{
-    this.setState({listCart:[...this.state.listCart, List]})
+    
+    const PositionProduct = this.state.listCart.findIndex((Item)=>{
+      
+        return List.ProductName === Item.ProductName
+    })
+    if(PositionProduct>-1){
+      const CopyList = [...this.state.listCart]
+      CopyList[PositionProduct].ProductQuantity+=List.ProductQuantity 
+      this.setState({listCart:CopyList})
+    }else{
+      this.setState({listCart:[...this.state.listCart, List]})
+    }
   }
 
   SaveToState = (what) =>{
@@ -90,9 +103,19 @@ class App extends React.Component{
     }
   }
   render(){
+    const NumberCart = this.state.listCart.reduce((PrevItem, Item)=>{
+      return Number(PrevItem) + Number(Item.ProductQuantity)
+    },0)
+
     return(
       <AppContainer>
-        <Products ListCartSize={this.state.listCart.length} SaveStateListCart={this.SavetoStateListCart} ListCart={this.state.listCart} AllProducts={this.state.products} InputFilterValue={this.state.filterInput} SelectFilterValue={this.state.filterSelect} SaveState={this.SaveToState}/>
+        <Products ListCartSize={NumberCart} 
+        SaveStateListCart={this.SavetoStateListCart} 
+        ListCart={this.state.listCart} 
+        AllProducts={this.state.products} 
+        InputFilterValue={this.state.filterInput} 
+        SelectFilterValue={this.state.filterSelect}
+         SaveState={this.SaveToState}/>
         {this.RenderCart()}
       </AppContainer>
     )

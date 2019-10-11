@@ -27,7 +27,7 @@ const rotate = keyframes`
     transform: rotate(0deg)
   }
   to {
-    transform: rotate(3deg)
+    transform: rotate(360deg)
   }
 `
 
@@ -65,7 +65,7 @@ const DivOpenCart = styled.div`
 const ImgCart = styled.img`
     width: 70px;
     height:70px;
-    animation: ${rotate} 1s linear;
+    animation: ${props => props.Girar} 1s linear;
 `
 
 
@@ -129,6 +129,7 @@ export class Products extends React.Component {
         super(props)
         this.state = {
             buttonState:true,
+            rotate: false,
         }
     }
 
@@ -151,15 +152,26 @@ export class Products extends React.Component {
     }
 
     OpenCart = () =>{
-
         this.props.SaveState({windowCart:true})
+    }
 
+    ReceiveRotatefromCard =(Anything)=>{
+        
+        this.setState({rotate:Anything})
     }
 
     render() {
 
-        let CartImg
+        let Rotate 
 
+        if(this.state.rotate){
+            Rotate=rotate
+        }else{
+            Rotate=rotate
+        }
+
+        let CartImg
+        
         if(this.props.ListCartSize<1){
             CartImg = require('../img/vazia.png')
         }else{
@@ -189,7 +201,7 @@ export class Products extends React.Component {
         })
         
         const MapProducts = FilterProducts.map((Item)=>{
-            return <ProductCard SendChildFunction={this.ReceiveChild} key={Item.id} Name={Item.name} Value={Item.value} UrlImg={Item.imageUrl} Id={Item.id} AllProducts={ProductList}/>
+            return <ProductCard ReceiveRotate={this.ReceiveRotatefromCard} SendChildFunction={this.ReceiveChild} key={Item.id} Name={Item.name} Value={Item.value} UrlImg={Item.imageUrl} Id={Item.id} AllProducts={ProductList}/>
         })
 
         let ImgChangedExpensive 
@@ -225,7 +237,7 @@ export class Products extends React.Component {
                     <DivNumberCart>
                         <FontStyleCart>{this.props.ListCartSize}</FontStyleCart>
                     </DivNumberCart>
-                    <ImgCart src={CartImg} alt="logo do carrinho"/>
+                    <ImgCart Girar={Rotate} src={CartImg} alt="logo do carrinho"/>
                 </DivOpenCart>
             </DivWindow>
         )
