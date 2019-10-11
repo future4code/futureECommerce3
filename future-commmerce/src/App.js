@@ -13,7 +13,6 @@ const AppContainer = styled.div`
 `
 
 
-
 class App extends React.Component{
   constructor(props){
     super(props)
@@ -65,6 +64,16 @@ class App extends React.Component{
         filterInput:"",
         filterSelect:"",
       }
+  }
+
+  componentDidMount() {
+    const loadStorage = JSON.parse(window.localStorage.getItem("SavedCartList"))
+    this.setState({listCart: loadStorage})
+  }
+
+  componentDidUpdate(){
+    const saveStorage = JSON.stringify(this.state.listCart)
+    window.localStorage.setItem("SavedCartList", saveStorage)
   }
 
   SavetoStateListCart=(List)=>{

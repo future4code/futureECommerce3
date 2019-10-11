@@ -82,7 +82,6 @@ export class ProductCard extends React.Component{
   }
 
   AddToCart=(CardValues)=>{
-
     this.props.SendChildFunction(CardValues)
   }
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components'
 import { ProductCard } from './ProductCard'
+import { keyframes } from 'styled-components'
 
 const DivWindow = styled.div`
     display: flex;
@@ -19,6 +20,15 @@ const ProductsContainer = styled.div`
     justify-content: space-evenly;
     border-right:2px solid white;
     border-left:2px solid white;
+`
+
+const rotate = keyframes`
+  from {
+    transform: rotate(0deg)
+  }
+  to {
+    transform: rotate(3deg)
+  }
 `
 
 const FontStyle = styled.p`
@@ -55,7 +65,9 @@ const DivOpenCart = styled.div`
 const ImgCart = styled.img`
     width: 70px;
     height:70px;
+    animation: ${rotate} 1s linear;
 `
+
 
 const FontStyleCart = styled.p`
   color:white;
@@ -92,6 +104,7 @@ const SelectStyle = styled.select`
         outline: none;
     }
 `
+
 
 const ImgStyle = styled.img`
     width: 40px;
@@ -138,6 +151,7 @@ export class Products extends React.Component {
     }
 
     OpenCart = () =>{
+
         this.props.SaveState({windowCart:true})
 
     }
@@ -184,6 +198,8 @@ export class Products extends React.Component {
         }else{
             ImgChangedExpensive = "https://image.flaticon.com/icons/svg/755/755195.svg"
         }
+
+        
 
         return (
             <DivWindow>
