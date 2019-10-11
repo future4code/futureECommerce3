@@ -82,13 +82,14 @@ export class ProductCard extends React.Component{
   }
 
   AddToCart=(CardValues)=>{
+
     this.props.SendChildFunction(CardValues)
   }
 
   render(){
 
     const CardValues = {
-        ProductId: this.props.Id,
+        ProductId: Date.now(),
         ProductUrl:this.props.UrlImg ,
         ProductName:this.props.Name,
         ProductPrice:this.props.Value,

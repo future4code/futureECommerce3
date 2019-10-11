@@ -42,6 +42,47 @@ const InputStyle = styled.input`
     }
 `
 
+const DivOpenCart = styled.div`
+    position: fixed;
+    background:transparent;
+    height:75px;
+    width:80px;
+    bottom:50px;
+    right:1.3%;
+    cursor:pointer;
+`
+
+const ImgCart = styled.img`
+    width: 70px;
+    height:70px;
+`
+
+const FontStyleCart = styled.p`
+  color:white;
+  font-size:18px;
+  font-weight:bold;
+  width:100%;
+  height:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:0;
+  margin:0;
+`
+
+const DivNumberCart = styled.div`
+    position: absolute;
+    background: #282057;
+    bottom:0;
+    width:25px;
+    height:25px;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    border: 2px solid black;
+`
+
 const SelectStyle = styled.select`
     margin-left: 20px;
     border-radius: 10px;
@@ -96,9 +137,20 @@ export class Products extends React.Component {
         this.setState({buttonState: !this.state.buttonState})
     }
 
+    OpenCart = () =>{
+        this.props.SaveState({windowCart:true})
+
+    }
+
     render() {
 
-        
+        let CartImg
+
+        if(this.props.ListCartSize<1){
+            CartImg = require('../img/vazia.png')
+        }else{
+            CartImg = require('../img/cheia.png')
+        }
 
         const ProductList = this.props.AllProducts
 
@@ -116,7 +168,7 @@ export class Products extends React.Component {
             }else if(this.props.SelectFilterValue==="ProdMin"){
                 return  Product.value > this.props.InputFilterValue
             }else if(this.props.SelectFilterValue==="ProdName"){
-                return  Product.name = this.props.InputFilterValue
+                return  Product.name.indexOf(this.props.InputFilterValue) > -1
             }else{
                 return Product
             }
@@ -132,6 +184,7 @@ export class Products extends React.Component {
         }else{
             ImgChangedExpensive = "https://image.flaticon.com/icons/svg/755/755195.svg"
         }
+
         return (
             <DivWindow>
                 <DivFilter>
@@ -152,6 +205,12 @@ export class Products extends React.Component {
                 <ProductsContainer>
                     {MapProducts}
                 </ProductsContainer>
+                <DivOpenCart onClick={this.OpenCart}>
+                    <DivNumberCart>
+                        <FontStyleCart>{this.props.ListCartSize}</FontStyleCart>
+                    </DivNumberCart>
+                    <ImgCart src={CartImg} alt="logo do carrinho"/>
+                </DivOpenCart>
             </DivWindow>
         )
     }

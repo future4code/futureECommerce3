@@ -77,15 +77,13 @@ class App extends React.Component{
 
   RenderCart = () =>{
     if(this.state.windowCart){
-      return <Cart SendList={this.state.listCart}/>
+      return <Cart SaveToState={this.SaveToState} SendList={this.state.listCart}/>
     }
   }
   render(){
-    
-    console.log(this.state.listCart)
     return(
       <AppContainer>
-        <Products SaveStateListCart={this.SavetoStateListCart} ListCart={this.state.listCart} AllProducts={this.state.products} InputFilterValue={this.state.filterInput} SelectFilterValue={this.state.filterSelect} SaveState={this.SaveToState}/>
+        <Products ListCartSize={this.state.listCart.length} SaveStateListCart={this.SavetoStateListCart} ListCart={this.state.listCart} AllProducts={this.state.products} InputFilterValue={this.state.filterInput} SelectFilterValue={this.state.filterSelect} SaveState={this.SaveToState}/>
         {this.RenderCart()}
       </AppContainer>
     )

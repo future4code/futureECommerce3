@@ -2,18 +2,17 @@ import React from 'react';
 import styled from 'styled-components'
 
 const BackgroundContainer = styled.div`
-    position: absolute;
+    position: fixed;
     width:100vw;
-    height:100%;
+    min-height:100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background:rgba(0,0,0,0.7);
+    background:rgba(0,0,0,0.8);
 `
 
 const CartContainer = styled.div`
-  
   background: white;
   min-height: 50vh;
   width:50vw;
@@ -53,16 +52,22 @@ const TotalItem = styled.h4`
 const GridDiv = styled.div`
     width: 90%;
     display:grid;
-    grid-template-columns: repeat(3,1fr) 30px;
+    grid-template-columns: repeat(2,1fr) 30px;
+`
+
+const FlexGrid = styled.div`
+    width: 95%;
+    display:flex;
+    justify-content:flex-end;
+    align-items:center;
+    height:50px;
 
 `
 
 
 const ImgStyle = styled.img`
     width:30px;
-    position:relative;
-    top:10px;
-    left: 45%;
+    cursor:pointer;
 `
 
 
@@ -71,33 +76,46 @@ export class Cart extends React.Component{
     super(props)
       this.state = {
       }
-    // this.props.SendList
+    
   }
+
+  DeleteCartItem = (id) =>{
+    const CopyListCart = [...this.props.SendList]
+    const Idofid = CopyListCart.indexOf(id)
+    CopyListCart.splice(Idofid,1) 
+    
+    this.props.SaveToState({listCart: CopyListCart})
+  }
+
+  CloseWindow =() =>{
+    this.props.SaveToState({windowCart:false})
+  }
+ 
   render(){
+    
+    const TotalPrice = this.props.SendList.reduce((PrevItem, Item)=>{
+      return Number(PrevItem) + Number(Item.ProductPrice)
+    },0)
+      
+    const ListCart = this.props.SendList.map((Item)=>{
+      return <GridDiv key={Item.ProductId}><GridItems>{Item.ProductName}</GridItems><GridItems>{Item.ProductPrice}</GridItems><GridItems><ImgStyle onClick={()=>this.DeleteCartItem(Item.ProductId)} src="https://image.flaticon.com/icons/svg/1632/1632602.svg" alt="delete item"/></GridItems></GridDiv>
+    })
+
+
     return(
         <BackgroundContainer>
             <CartContainer>
-            <ImgStyle src="https://image.flaticon.com/icons/svg/189/189678.svg" alt=""/>
-            <GridDiv>
+            <FlexGrid>
+              <ImgStyle onClick={this.CloseWindow} src="https://image.flaticon.com/icons/svg/189/189678.svg" alt=""/>
+            </FlexGrid>
+              <GridDiv>
                 <GridTitle>Produto</GridTitle>
-                <GridTitle>Quantidade</GridTitle>
                 <GridTitle>Valor</GridTitle>
                 <GridTitleNoBorder></GridTitleNoBorder>
-                <GridItems>ola</GridItems>
-                <GridItems>ola</GridItems>
-                <GridItems>ola</GridItems>
-                <GridItems>ola</GridItems>
-                <GridItems>ola</GridItems>
-                <GridItems>ola</GridItems>
-                <GridItems>ola</GridItems>
-                <GridItems>ola</GridItems>
-                <GridItems>ola</GridItems>
-                <GridItems>ola</GridItems>
-                <GridItems>ola</GridItems>
-                <GridItems>ola</GridItems>
-                <TotalItem>Total R$: 50,00</TotalItem>
-                
-                
+              </GridDiv>
+              {ListCart}
+              <GridDiv>
+              <TotalItem>Total R$: {TotalPrice} </TotalItem>
             </GridDiv>
             
             </CartContainer>
