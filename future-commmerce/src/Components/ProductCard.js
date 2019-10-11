@@ -74,41 +74,41 @@ const ImgStyle = styled.img`
     
 `
 
-export class ProductCard extends React.Component{
-  constructor(props){
-    super(props)
-      this.state = {
-          statusButton:true
-      }
-  }
-
-  AddToCart=(CardValues)=>{
-      const interruptor = !this.state.statusButton
-      this.setState({statusButton: interruptor})
-      this.props.ReceiveRotate(interruptor)
-      
-    this.props.SendChildFunction(CardValues)
-  }
-
-  render(){
-    const CardValues = {
-        ProductId: Date.now(),
-        ProductUrl:this.props.UrlImg ,
-        ProductName:this.props.Name,
-        ProductPrice:this.props.Value,
-        ProductQuantity: 1,
-        ProductVisible:true,
+export class ProductCard extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            statusButton: true
+        }
     }
 
-    return(
-      <ProductCardContainer>
-        <ImgStyle src={CardValues.ProductUrl} alt=""/>
-        <DivStyle>
-            <TitleName>{CardValues.ProductName}</TitleName>
-            <ValueProduct>R$ {CardValues.ProductPrice}</ValueProduct>
-            <ButtonStyle onClick={()=>this.AddToCart(CardValues)}><Span>Comprar</Span></ButtonStyle>
-        </DivStyle>
-      </ProductCardContainer>
-    )
-  }
+    AddToCart = (CardValues) => {
+        const interruptor = !this.state.statusButton
+        this.setState({ statusButton: interruptor })
+        this.props.ReceiveRotate(interruptor)
+
+        this.props.SendChildFunction(CardValues)
+    }
+
+    render() {
+        const CardValues = {
+            ProductId: Date.now(),
+            ProductUrl: this.props.UrlImg,
+            ProductName: this.props.Name,
+            ProductPrice: this.props.Value,
+            ProductQuantity: 1,
+            ProductVisible: true,
+        }
+
+        return (
+            <ProductCardContainer>
+                <ImgStyle src={CardValues.ProductUrl} alt="" />
+                <DivStyle>
+                    <TitleName>{CardValues.ProductName}</TitleName>
+                    <ValueProduct>R$ {CardValues.ProductPrice}</ValueProduct>
+                    <ButtonStyle onClick={() => this.AddToCart(CardValues)}><Span>Comprar</Span></ButtonStyle>
+                </DivStyle>
+            </ProductCardContainer>
+        )
+    }
 }

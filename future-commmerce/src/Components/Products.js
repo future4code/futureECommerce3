@@ -128,53 +128,53 @@ export class Products extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            buttonState:true,
+            buttonState: true,
             rotate: false,
         }
     }
 
-    ReceiveChild=(DateValue)=>{
+    ReceiveChild = (DateValue) => {
         this.props.SaveStateListCart(DateValue)
     }
 
-    ChangeInputValue = (event) =>{
-        const ValueChanged = {filterInput: event.target.value}
+    ChangeInputValue = (event) => {
+        const ValueChanged = { filterInput: event.target.value }
         this.props.SaveState(ValueChanged)
     }
 
-    ChangeSelectValue = (event) =>{
-        const ValueChanged = {filterSelect: event.target.value}
+    ChangeSelectValue = (event) => {
+        const ValueChanged = { filterSelect: event.target.value }
         this.props.SaveState(ValueChanged)
     }
 
-    RenderImageExpensive =() =>{
-        this.setState({buttonState: !this.state.buttonState})
+    RenderImageExpensive = () => {
+        this.setState({ buttonState: !this.state.buttonState })
     }
 
-    OpenCart = () =>{
-        this.props.SaveState({windowCart:true})
+    OpenCart = () => {
+        this.props.SaveState({ windowCart: true })
     }
 
-    ReceiveRotatefromCard =(Anything)=>{
-        
-        this.setState({rotate:Anything})
+    ReceiveRotatefromCard = (Anything) => {
+
+        this.setState({ rotate: Anything })
     }
 
     render() {
 
-        let Rotate 
+        let Rotate
 
-        if(this.state.rotate){
-            Rotate=rotate
-        }else{
-            Rotate=rotate
+        if (this.state.rotate) {
+            Rotate = rotate
+        } else {
+            Rotate = rotate
         }
 
         let CartImg
-        
-        if(this.props.ListCartSize<1){
+
+        if (this.props.ListCartSize < 1) {
             CartImg = require('../img/vazia.png')
-        }else{
+        } else {
             CartImg = require('../img/cheia.png')
         }
 
@@ -182,52 +182,52 @@ export class Products extends React.Component {
 
         let SortValue
 
-        if(this.state.buttonState){
+        if (this.state.buttonState) {
             SortValue = ProductList.sort((b, a) => (a.value > b.value) ? 1 : -1)
-        }else{
+        } else {
             SortValue = ProductList.sort((a, b) => (a.value > b.value) ? 1 : -1)
         }
 
-        const FilterProducts = SortValue.filter((Product)=>{
-            if(this.props.SelectFilterValue==="ProdMax"){
-                return  Product.value < this.props.InputFilterValue
-            }else if(this.props.SelectFilterValue==="ProdMin"){
-                return  Product.value > this.props.InputFilterValue
-            }else if(this.props.SelectFilterValue==="ProdName"){
-                return  Product.name.indexOf(this.props.InputFilterValue) > -1
-            }else{
+        const FilterProducts = SortValue.filter((Product) => {
+            if (this.props.SelectFilterValue === "ProdMax") {
+                return Product.value < this.props.InputFilterValue
+            } else if (this.props.SelectFilterValue === "ProdMin") {
+                return Product.value > this.props.InputFilterValue
+            } else if (this.props.SelectFilterValue === "ProdName") {
+                return Product.name.indexOf(this.props.InputFilterValue) > -1
+            } else {
                 return Product
             }
         })
-        
-        const MapProducts = FilterProducts.map((Item)=>{
-            return <ProductCard ReceiveRotate={this.ReceiveRotatefromCard} SendChildFunction={this.ReceiveChild} key={Item.id} Name={Item.name} Value={Item.value} UrlImg={Item.imageUrl} Id={Item.id} AllProducts={ProductList}/>
+
+        const MapProducts = FilterProducts.map((Item) => {
+            return <ProductCard ReceiveRotate={this.ReceiveRotatefromCard} SendChildFunction={this.ReceiveChild} key={Item.id} Name={Item.name} Value={Item.value} UrlImg={Item.imageUrl} Id={Item.id} AllProducts={ProductList} />
         })
 
-        let ImgChangedExpensive 
+        let ImgChangedExpensive
         if (this.state.buttonState) {
-            ImgChangedExpensive =  "https://image.flaticon.com/icons/svg/138/138280.svg"
-        }else{
+            ImgChangedExpensive = "https://image.flaticon.com/icons/svg/138/138280.svg"
+        } else {
             ImgChangedExpensive = "https://image.flaticon.com/icons/svg/755/755195.svg"
         }
 
-        
+
 
         return (
             <DivWindow>
                 <DivFilter>
                     <DivFlex>
-                    <SelectStyle value={this.props.SelectFilterValue} onChange={this.ChangeSelectValue}>
-                        <option value="Nothing">Filtrar</option>
-                        <option value="ProdMin">Valor Mínimo</option>
-                        <option value="ProdMax">Valor Máximo</option>
-                        <option value="ProdName">Nome do Produto</option>
-                    </SelectStyle>
-                    <InputStyle type="text" value={this.props.InputFilterValue} onChange={this.ChangeInputValue}/>
+                        <SelectStyle value={this.props.SelectFilterValue} onChange={this.ChangeSelectValue}>
+                            <option value="Nothing">Filtrar</option>
+                            <option value="ProdMin">Valor Mínimo</option>
+                            <option value="ProdMax">Valor Máximo</option>
+                            <option value="ProdName">Nome do Produto</option>
+                        </SelectStyle>
+                        <InputStyle type="text" value={this.props.InputFilterValue} onChange={this.ChangeInputValue} />
                     </DivFlex>
                     <DivFlex>
-                    <FontStyle>ordernar preço por: </FontStyle>
-                    <ImgStyle onClick={this.RenderImageExpensive} src={ImgChangedExpensive} alt=""/>
+                        <FontStyle>ordernar preço por: </FontStyle>
+                        <ImgStyle onClick={this.RenderImageExpensive} src={ImgChangedExpensive} alt="" />
                     </DivFlex>
                 </DivFilter>
                 <ProductsContainer>
@@ -237,7 +237,7 @@ export class Products extends React.Component {
                     <DivNumberCart>
                         <FontStyleCart>{this.props.ListCartSize}</FontStyleCart>
                     </DivNumberCart>
-                    <ImgCart Girar={Rotate} src={CartImg} alt="logo do carrinho"/>
+                    <ImgCart Girar={Rotate} src={CartImg} alt="logo do carrinho" />
                 </DivOpenCart>
             </DivWindow>
         )

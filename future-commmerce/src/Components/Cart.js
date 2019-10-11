@@ -71,57 +71,71 @@ const ImgStyle = styled.img`
 `
 
 
-export class Cart extends React.Component{
-  constructor(props){
+export class Cart extends React.Component {
+  constructor(props) {
     super(props)
-      this.state = {
-      }
+    this.state = {
+    }
   }
 
-  DeleteCartItem = (id) =>{
-    const CopyListCart = [...this.props.SendList]
-    const Idofid = CopyListCart.indexOf(id)
-    CopyListCart.splice(Idofid,1) 
-    
-    this.props.SaveToState({listCart: CopyListCart})
+  DeleteCartItem = (id, manny) => {
+    if (manny > 1) {
+      const CopyListCart = [...this.props.SendList]
+
+      const PositionProduct = CopyListCart.findIndex((Item) => {
+
+        return id === Item.ProductId
+      })
+      const subtraction = manny - 1
+      CopyListCart[PositionProduct].ProductQuantity = subtraction
+
+      this.props.SaveToState({ listCart: CopyListCart })
+
+    } else {
+      const CopyListCart = [...this.props.SendList]
+      const Idofid = CopyListCart.indexOf(id)
+      CopyListCart.splice(Idofid, 1)
+
+      this.props.SaveToState({ listCart: CopyListCart })
+    }
   }
 
-  CloseWindow =() =>{
-    this.props.SaveToState({windowCart:false})
+  CloseWindow = () => {
+    this.props.SaveToState({ windowCart: false })
   }
- 
-  render(){
-    
-    const TotalPrice = this.props.SendList.reduce((PrevItem, Item)=>{
-      return Number(PrevItem) + (Number(Item.ProductPrice)*Number(Item.ProductQuantity))
-    },0)
-      
 
-    const ListCart = this.props.SendList.map((Item)=>{
+  render() {
 
-      return <GridDiv key={Item.ProductId}><GridItems>{Item.ProductName}</GridItems><GridItems>{Item.ProductQuantity}</GridItems><GridItems>{Item.ProductPrice*Item.ProductQuantity}</GridItems><GridItems><ImgStyle onClick={()=>this.DeleteCartItem(Item.ProductId)} src="https://image.flaticon.com/icons/svg/1632/1632602.svg" alt="delete item"/></GridItems></GridDiv>
+    const TotalPrice = this.props.SendList.reduce((PrevItem, Item) => {
+      return Number(PrevItem) + (Number(Item.ProductPrice) * Number(Item.ProductQuantity))
+    }, 0)
+
+
+    const ListCart = this.props.SendList.map((Item) => {
+
+      return <GridDiv key={Item.ProductId}><GridItems>{Item.ProductName}</GridItems><GridItems>{Item.ProductQuantity}</GridItems><GridItems>{Item.ProductPrice * Item.ProductQuantity}</GridItems><GridItems><ImgStyle onClick={() => this.DeleteCartItem(Item.ProductId, Item.ProductQuantity)} src="https://image.flaticon.com/icons/svg/1632/1632602.svg" alt="delete item" /></GridItems></GridDiv>
     })
 
 
-    return(
-        <BackgroundContainer>
-            <CartContainer>
-            <FlexGrid>
-              <ImgStyle onClick={this.CloseWindow} src="https://image.flaticon.com/icons/svg/189/189678.svg" alt=""/>
-            </FlexGrid>
-              <GridDiv>
-                <GridTitle>Produto</GridTitle>
-                <GridTitle>Quantidade</GridTitle>
-                <GridTitle>Valor</GridTitle>
-                <GridTitleNoBorder></GridTitleNoBorder>
-              </GridDiv>
-              {ListCart}
-              <GridDiv>
-              <TotalItem>Total R$: {TotalPrice} ,00 </TotalItem>
-            </GridDiv>
-            
-            </CartContainer>
-        </BackgroundContainer>
+    return (
+      <BackgroundContainer>
+        <CartContainer>
+          <FlexGrid>
+            <ImgStyle onClick={this.CloseWindow} src="https://image.flaticon.com/icons/svg/189/189678.svg" alt="" />
+          </FlexGrid>
+          <GridDiv>
+            <GridTitle>Produto</GridTitle>
+            <GridTitle>Quantidade</GridTitle>
+            <GridTitle>Valor</GridTitle>
+            <GridTitleNoBorder></GridTitleNoBorder>
+          </GridDiv>
+          {ListCart}
+          <GridDiv>
+            <TotalItem>Total R$: {TotalPrice} ,00 </TotalItem>
+          </GridDiv>
+
+        </CartContainer>
+      </BackgroundContainer>
     )
   }
 }
